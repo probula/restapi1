@@ -38,6 +38,8 @@ function App() {
        return(nazwa && region)
    });
 
+
+
   return (
     <>
     <input type={"text"} placeholder={"szukaj"} value={searchText} onChange={(e) => setSearchText(e.target.value)} />
@@ -46,7 +48,7 @@ function App() {
             <option value={"Europe"}>Europa</option>
             <option value={"Asia"}>Azja</option>
             <option value={"Africa"}>Afryka</option>
-            <option value={"Americas"}>Europa</option>
+            <option value={"Americas"}>Ameryka</option>
             <option value={"Oceania"}>Australia</option>
         </select>
 
@@ -59,6 +61,7 @@ function App() {
             {kraje.map(country => (
                 <li key={country.cca2}>
                     {country.name.common} - {country.region}
+                    <button onClick={() => setSelectedCountry(country)}>pokaż szczegóły</button>
                 </li>
             ))}
         </ul>
@@ -67,6 +70,16 @@ function App() {
                 ) ): (
                     <p>wpisz nazwe kraju</p>
                 )}
+
+        {selectedCountry && (
+            <div>
+                <h2>{selectedCountry.name.common}</h2>
+                <p>Region: {selectedCountry.region}</p>
+                <p>Stolica: {selectedCountry.capital}</p>
+                <p>Populacja: {selectedCountry.population}</p>
+                <button onClick={() => setSelectedCountry(null)}>zamknij</button>
+            </div>
+        )}
 
     </>
   )
