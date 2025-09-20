@@ -29,7 +29,7 @@ function App() {
                return res.json();
            })
            .then((data) => setCountries(data))
-           .catch((err) => setError(err))
+           .catch((err) => setError(err.message))
            .finally(() => setLoading(false));
    }, []);
    const kraje = countries.filter(country =>{
@@ -53,6 +53,7 @@ function App() {
         </select>
 
         {loading && <p>Ładowanie danych</p>}
+        {error && <p>{error}</p>}
 
 
             {searchText ? (
