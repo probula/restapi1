@@ -1,13 +1,8 @@
 
 import './App.css'
 import {useEffect, useState} from "react";
-interface Country {
-    name: { common: string };
-    region: string;
-    capital?: string[];
-    population: number;
-    cca2: string;
-}
+import Lista from "./List.tsx";
+import type {Country} from "./CountryInterface.tsx";
 
 const BASE = "https://restcountries.com/v3.1/all?fields=name,region,capital,population,cca2";
 
@@ -32,13 +27,12 @@ function App() {
            .catch((err) => setError(err.message))
            .finally(() => setLoading(false));
    }, []);
+
    const kraje = countries.filter(country =>{
        const nazwa = country.name.common.toLowerCase().includes(searchText.toLowerCase());
        const region = filter ? country.region === filter : true
        return(nazwa && region)
    });
-
-
 
   return (
     <>
@@ -55,22 +49,9 @@ function App() {
         {loading && <p>Ładowanie danych</p>}
         {error && <p>{error}</p>}
 
+        <Lista countries={kraje} onSelect={(country: Country) => setSelectedCountry(country)}/>
 
-            {searchText ? (
-                kraje.length > 0 ? (
-                <ul>
-            {kraje.map(country => (
-                <li key={country.cca2}>
-                    {country.name.common} - {country.region}
-                    <button onClick={() => setSelectedCountry(country)}>pokaż szczegóły</button>
-                </li>
-            ))}
-        </ul>
-        ) : (
-        <p>Brak wynikow</p>
-                ) ): (
-                    <p>wpisz nazwe kraju</p>
-                )}
+
 
         {selectedCountry && (
             <div>
